@@ -7,7 +7,7 @@ CORS(app)
 
 @app.route("/GetManagerLeaderIP",methods =['POST'])
 def SendManagerLeaderIP():
-    return "http://127.0.0.1:7021/"
+    return "http://127.0.1.1:7021/"
 
 @app.route("/RequestOTP",methods =['GET'])
 def SendOTP():

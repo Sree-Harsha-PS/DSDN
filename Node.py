@@ -30,14 +30,10 @@ def HeartBeatStatus():
 @app.route("/GetNextNode",methods =['POST'])
 def getNextNode():
     req = request.data.decode()
-    data = json.loads(req)
-    print("called")
-    print(data["Source"],leaderIP)
-    print(leaderIP)
-    # print()
+    # data = json.loads(req)
     url = leaderIP+"SendNextNode"
-    print(url)
-    res=requests.post(url=url,data=data)
+    # print(url,data)
+    res=requests.post(url=url,data=req)
     # print(res)
     return "alive"
 
@@ -45,14 +41,14 @@ def getNextNode():
 # def LeaderIpDecode():
 #     url = getLeaderIP()
 #     # data = {
-#     #             "Source":"http://127.0.0.1:"+str(port),
-#     #             "Destination":"http://127.0.0.1:"+str(port2)
+#     #             "Source":"http://127.0.1.1:"+str(port),
+#     #             "Destination":"http://127.0.1.1:"+str(port2)
 #     #         }
 #     data = json.dumps(data)
 #     return res
 
 def start_server():
-        app.run(debug=False,port=port,host='127.0.0.1')
+        app.run(debug=False,port=port,host='127.0.1.1')
 startServer = threading.Thread(target=start_server)
 startServer.start()
 # time.sleep(10)
