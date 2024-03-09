@@ -1,7 +1,6 @@
 Id = int(input("Enter the Node ID: "))
 port = 10000+Id
-Id2=int(input("Enter the Destination Node ID: "))
-port2 = 10000+Id
+
 
 from flask import Flask, Response, request
 from flask_cors import CORS
@@ -28,20 +27,33 @@ def HeartBeatStatus():
     print("recieved IP")
     return "alive"
 
+@app.route("/GetNextNode",methods =['POST'])
+def getNextNode():
+    req = request.data.decode()
+    data = json.loads(req)
+    print("called")
+    print(data["Source"],leaderIP)
+    print(leaderIP)
+    # print()
+    url = leaderIP+"SendNextNode"
+    print(url)
+    res=requests.post(url=url,data=data)
+    # print(res)
+    return "alive"
 
-def LeaderIpDecode():
-    url = getLeaderIP()
-    data = {
-                "Source":"http://127.0.1.1/"+str(port),
-                "Destination":"http://127.0.1.1/"+str(port2)
-            }
-    data = json.dumps(data)
-    res=requests.post(leaderIP+"GetNextNode",)
-    return res
+
+# def LeaderIpDecode():
+#     url = getLeaderIP()
+#     # data = {
+#     #             "Source":"http://127.0.0.1:"+str(port),
+#     #             "Destination":"http://127.0.0.1:"+str(port2)
+#     #         }
+#     data = json.dumps(data)
+#     return res
 
 def start_server():
-        app.run(debug=False,port=port,host='127.0.1.1')
+        app.run(debug=False,port=port,host='127.0.0.1')
 startServer = threading.Thread(target=start_server)
 startServer.start()
-time.sleep(10)
-LeaderIpDecode()    
+# time.sleep(10)
+# LeaderIpDecode()    
