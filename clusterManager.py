@@ -8,6 +8,10 @@ import smtplib
 from flask import Flask, Response, request
 from flask_cors import CORS
 
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 import pyotp
 clusterIP = ['http://127.0.1.1:5011/','http://127.0.1.1:5021/','http://127.0.1.1:5031/']
 clusterStatus = {
@@ -19,12 +23,22 @@ clusterStatus = {
 matrix=[[0,1,5,0,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7],[1,0,6,3,0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[5,6,0,0,9,5,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,8,0,0,0,0,5,2,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,9,0,0,0,4,0,0,8,10,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0],[0,0,5,8,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,7,0,4,4,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,4,0,6,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,8,0,0,0,0],[0,0,0,0,8,0,5,0,6,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,5,10,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0],[8,11,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,7,0,0,0,0,0,0,0,0,0],[0,0,0,7,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,4,0,5,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,4,0,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,2,0,8,0,0,0,0,3,0,0,0,6,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,8,0,0,0,0,0,0,3,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,3],[0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,5,0,3,4,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,3,0,2,0,0,0,0,0,0,0],[0,0,0,0,7,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,4,2,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,3,0,0,0,0,0,0,4,3,0,4,0],[0,0,0,0,0,0,0,0,8,6,0,0,0,0,4,0,0,0,0,0,0,0,2,0,4,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,7,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,7,0,0],[7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0]]
 NodesIP = ["http://127.0.1.1:10001/","http://127.0.1.1:10002/","http://127.0.1.1:10003/","http://127.0.1.1:10004/","http://127.0.1.1:10005/","http://127.0.1.1:10006/","http://127.0.1.1:10007/","http://127.0.1.1:10008/","http://127.0.1.1:10009/","http://127.0.1.1:10010/","http://127.0.1.1:10011/","http://127.0.1.1:10012/","http://127.0.1.1:10013/","http://127.0.1.1:10014/","http://127.0.1.1:10015/","http://127.0.1.1:10016/","http://127.0.1.1:10017/","http://127.0.1.1:10018/","http://127.0.1.1:10019/","http://127.0.1.1:10020/","http://127.0.1.1:10021/","http://127.0.1.1:10022/","http://127.0.1.1:10023/","http://127.0.1.1:10024/","http://127.0.1.1:10025/","http://127.0.1.1:10026/","http://127.0.1.1:10027/","http://127.0.1.1:10028/","http://127.0.1.1:10029/","http://127.0.1.1:10030/"]
 
-
+LeaderStatus = "dead"
 
 
 global app
 app = Flask(__name__)
 CORS(app)
+
+def setLeaderStatus(data):
+    global LeaderStatus 
+    LeaderStatus = data
+    return LeaderStatus
+
+def getLeaderStatus():
+    global LeaderStatus
+    return LeaderStatus
+    
 
 def generate_otp():
     key="DuckSquadDontNap"
@@ -113,6 +127,14 @@ async def  addNodeToNetwork():
 
 
 
+@app.route("/ReciveNodeIP",methods =['POST'])
+def  ReciveNodeIP():
+    req = request.data.decode()
+    print(req)
+        
+    print(clusterIP[0]+"ComputeShortestPath")
+    requests.post(clusterIP[0]+"ComputeShortestPath",req)
+
 @app.route("/",methods =['POST'])
 def  Add_Node_to_Network():
     noOfNodes = 3
@@ -151,7 +173,14 @@ def  Add_Node_to_Network():
 def sendHeartBeatToClusters():
     for IP in clusterIP:
         try:
-            res = requests.get(IP+"HeartBeatFromManager")
+            data = {
+                "leaderIP":"http://127.0.1.1:"+str(node.port+1)+'/',
+                "matrix" : str(matrix),
+                "NodesIP" : str(NodesIP)
+            }
+            data = json.dumps(data)
+            # "http://127.0.1.1:"+str(node.port+1)
+            res = requests.post(url=IP+"HeartBeatFromManager",data=data)
             clusterStatus[IP] = "alive"
             print(res.content.decode())
         except:
@@ -159,6 +188,16 @@ def sendHeartBeatToClusters():
             clusterStatus[IP] = "dead"
         print(IP)
 
+def sendIPToAdmin():
+    try:
+        data = {"leaderIP":"http://127.0.1.1:"+str(node.port+1)+'/'}
+        data = json.dumps(data)
+        res = requests.post("http://127.0.1.1:3000/HeartBeatFromManager",data=data)
+        setLeaderStatus("alive")
+    except:
+        setLeaderStatus("dead")
+        pass
+        
 
 def  clusterManagerLeader(node):
     while not node.shutdown_flag:

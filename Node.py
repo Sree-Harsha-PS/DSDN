@@ -1,6 +1,9 @@
 Id = int(input("Enter the Node ID: "))
 port = 10000+Id
 
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 from flask import Flask, Response, request
 from flask_cors import CORS
@@ -30,10 +33,15 @@ def HeartBeatStatus():
 @app.route("/GetNextNode",methods =['POST'])
 def getNextNode():
     req = request.data.decode()
-    # data = json.loads(req)
+    data = json.loads(req)
+    data["Current"]="http://127.0.1.1:"+str(port)+"/"
     url = leaderIP+"SendNextNode"
     # print(url,data)
-    res=requests.post(url=url,data=req)
+    if(data["Current"] != data["Destination"]):
+        res=requests.post(url=url,data=req)
+        print(req)
+    else:
+        print("found madu")        
     # print(res)
     return "alive"
 

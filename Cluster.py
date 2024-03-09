@@ -2,14 +2,25 @@ from pyraft import raft
 import threading
 from time import sleep
 import requests
-
+import json
 from flask import Flask, Response, request
 from flask_cors import CORS
+import networkx as nx
+
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 global app
 app = Flask(__name__)
 CORS(app)
 matrix = []
+
+# To find next path
+# def find_next_node(source,destination):
+#     p=nx.shortest_path(matrix,source,destination,weight='weight')
+#     return p[1]
+# print(find_next_node(1,18))
 
 NodesIP = ["http://127.0.1.1:10001/","http://127.0.1.1:10002/","http://127.0.1.1:10003/","http://127.0.1.1:10004/","http://127.0.1.1:10005/","http://127.0.1.1:10006/","http://127.0.1.1:10007/","http://127.0.1.1:10008/","http://127.0.1.1:10009/","http://127.0.1.1:10010/","http://127.0.1.1:10011/","http://127.0.1.1:10012/","http://127.0.1.1:10013/","http://127.0.1.1:10014/","http://127.0.1.1:10015/","http://127.0.1.1:10016/","http://127.0.1.1:10017/","http://127.0.1.1:10018/","http://127.0.1.1:10019/","http://127.0.1.1:10020/","http://127.0.1.1:10021/","http://127.0.1.1:10022/","http://127.0.1.1:10023/","http://127.0.1.1:10024/","http://127.0.1.1:10025/","http://127.0.1.1:10026/","http://127.0.1.1:10027/","http://127.0.1.1:10028/","http://127.0.1.1:10029/","http://127.0.1.1:10030/"]
 NodeDetails = {
@@ -135,7 +146,35 @@ NodeDetails = {
                 # }
             }
 ClusterMangerIP = "" 
+matrix = []
 
+def stringToMatrix(data):
+    matrix =[]
+    data = str(data[2:-2])
+    data = data.replace(" ","")
+    data = data.replace("[","")
+    data = data.replace("],","|")
+    matrix = data.split("|")
+    for i in range(len(matrix)):
+        matrixtring = matrix[i]
+        matrix[i] = []
+        for c in matrixtring:
+            if(c!=","):
+                try:
+                    c = int(c)
+                except:
+                    pass    
+                matrix[i].append(c)
+                
+    return matrix   
+def setClusterManagerIP(ip):
+    global ClusterMangerIP
+    ClusterMangerIP = ip
+    return ClusterMangerIP
+
+def getClusterManagerIP():
+    global ClusterMangerIP
+    return ClusterMangerIP
 
 @app.route("/",methods =["POST"])
 def Add_Node_to_Network():
@@ -149,15 +188,36 @@ def RequestFromNode():
     print("recived")
     data = request.data.decode()
     print(data)
+    requests.post(getClusterManagerIP()+"ReciveNodeIP",data=data)
     return "alive"
 
-@app.route("/HeartBeatFromManager",methods =['get'])
+@app.route("/ComputeShortestPath",methods =['POST'])
+def shortestpath():
+    req = request.data.decode()
+    data = json.loads(req)
+    print(data["Source"])    
+    print(data["Destination"])   
+    try:
+        res = requests.post("http://127.0.1.1:10002/GetNextNode",req) 
+    except:
+        print("not able to send================>")    
+    return ""
+
+@app.route("/HeartBeatFromManager",methods =['POST'])
 def heartBeatFromManager():
 
     data = request.data.decode()
-    print(data,type(data))
-    global ClusterMangerIP
-    ClusterMangerIP = data
+    data = json.loads(data)
+    # print(data,type(data))
+    # global ClusterMangerIP
+    # ClusterMangerIP = data["leaderIP"]
+    setClusterManagerIP(data["leaderIP"])
+    global matrix
+    matrix = stringToMatrix(data["matrix"])
+    global NodesIP
+    NodesIP = data["NodesIP"]
+    
+    print(getClusterManagerIP())
     
     return "alive"
 
