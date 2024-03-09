@@ -11,7 +11,8 @@ const NodeAdder = () => {
   const [web,  setWeb] = useState('');
   const [id, setID] = useState('');
   const [status, setStatus] = useState(null);
-  const [leaderIP, setLeaderIP] = useState()
+  const [leaderIP, setLeaderIP] = useState();
+  const[OTP,setOTP] = useState('');
 
 
   const fetchLeaderIP = async () => {
@@ -21,42 +22,43 @@ const NodeAdder = () => {
 
     try {
       const response = await axios.get(url + params.toString());
-      setCsrs(response.data.csrs);
-      setTotalRows(response.data.totalRows);
-      setTotalPages(response.data.totalPages);
+      setLeaderIP(response.data.leaderIP);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const handleOTP = async (e) => {
+    e.preventDefault();
+    fetchLeaderIP();
+  
+    // Display an alert message asking for OTP
+    const inputOTP = prompt('Please enter the OTP:');
+    if (inputOTP !== null) {
+      setOTP(inputOTP);
+      try {
+        await axios.post(`${process.env.REACT_APP_BASE_URL}/${leaderIP}/GetOTPFromAdmin`, {
+          OTP: inputOTP
+        });
+        setOTP('');
+  
+        // Inform user that OTP verification is successful
+        alert('OTP verification successful!');
+      } catch (error) {
+        console.error(error);
+        console.log('Error response:', error.response);
+        setStatus('failure');
+        // show an error message or perform any other error handling
+      }
+    }
+  };
+  
+
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    try {
-      await axios.get(`${process.env.REACT_APP_BASE_URL}/GetManagerLeaderIP`, {
-        name,
-        web,
-        id,
-    });
-      setName('');
-      setWeb('');
-      setID('');
-      setStatus('success');
-
-      // Clear the success message after 2 seconds
-      setTimeout(() => {
-        setStatus(null);
-      }, 1000);
-      
-    } catch (error) {
-      console.error(error);
-      console.log('Error response:', error.response);
-      setStatus('failure');
-      // show an error message or perform any other error handling
-    }
-      w
+    fetchLeaderIP();
     
     try {
       await axios.post(`${process.env.REACT_APP_BASE_URL}/AddNode`, {
@@ -64,6 +66,10 @@ const NodeAdder = () => {
         web,
         id,
     });
+
+        // Call handleOTP to request OTP
+      handleOTP(e);
+
       setName('');
       setWeb('');
       setID('');
@@ -164,6 +170,7 @@ const NodeAdder = () => {
       <Footer />
     </div>
   );
+  
 };
 
 export default NodeAdder;

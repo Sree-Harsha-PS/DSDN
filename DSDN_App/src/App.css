@@ -1541,3 +1541,211 @@ form.hospital-f .hsubtn {
 .not-found-button:hover {
   background-color: #0056b3;
 }
+
+
+
+.stats-table {
+  width: 80%;
+  height: 150%;
+  /* border-collapse: collapse; */
+  border: 1px bold white;
+}
+
+.header-cell {
+  background-color: #0077b6; /* Blue background */
+  color: white; /* White text */
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  height: 200%;
+  font-size: xx-large;
+  margin-bottom: 5vh;
+}
+
+.category-heading {
+  background-color: #ffb703; /* Yellow background for category headings */
+  color: #000; /* Black text */
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+}
+
+.data-cell {
+  background-color: #00c2e0; /* Light blue background for data */
+  color: #fff; /* White text */
+  font-weight: bold;
+  text-align: center;
+  font-size: xxx-large;
+  padding: 10px;
+  animation: roll 1.8s ease-in-out; /* Apply rolling animation */
+}
+
+
+@keyframes roll {
+  0% {
+    transform: translateY(50px); /* Start from 50px below the normal position */
+    opacity: 0; /* Start with opacity 0 */
+  }
+  100% {
+    transform: translateY(0); /* End at the normal position */
+    opacity: 1; /* End with full opacity */
+  }
+}
+
+.land2{
+  height: 40h;
+  width: 100vh;
+}
+
+.land3{
+  height:50h;
+  width: 80vh;
+}
+
+.toolbar{
+  background: #3b536f;
+}
+
+.hdblue-tag{
+  /* color: #3b536f; */
+  /* color: #4cf; */
+  color: #0077b6;
+}
+
+.og-tag{
+   background-color:#0077b6;
+   color: white;
+}
+
+.c-page{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.carousel {
+  width: 100%;
+  max-width: 100vh; /* To ensure the carousel stays within the viewport */
+  position: relative;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 5%; /* Adjust the width of the previous and next controls */
+  font-size: 2rem; /* Adjust the font size as needed */
+  opacity: 0.5;
+  z-index: 5;
+}
+
+.carousel-control-prev {
+  left: 0;
+  background: transparent; /* Remove the background color if needed */
+}
+
+.carousel-control-next {
+  right: 0;
+  background: transparent; /* Remove the background color if needed */
+}
+
+.land2 {
+  height: 60vh; /* Use 'vh' for 40% of the viewport height */
+  width: 120vh;
+}
+
+.ft5{
+  font-size: 1.4rem;
+}
+
+.underline{
+  text-decoration: underline;
+  text-underline-position: below;
+}
+
+.w10{
+  width: 10% !important;
+}
+
+.w30{
+  width: 20% !important;
+}
+
+.usrbar{
+  height: 80vh;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  /* flex: 1; */
+  padding: 8px;
+}
+
+.search-button {
+  background-color: #007bff; /* Example background color */
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.no-records-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(to right, #0077b6, #00557e); /* Blue to Dark Blue gradient */
+  color: #fff; /* Text color */
+  padding: 20px;
+  border-radius: 8px;
+
+  /* Additional styles for better aesthetics */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+/* Add this style to limit Sl No. width */
+.sl, user-table th td:first-child {
+  width: 1.8em; /* Adjust as needed */
+}
+
+.reports{
+  padding-top: 5rem;
+}
+
+.clear-btn {
+  background: #34d991;
+  background-image: -webkit-linear-gradient(top, #34d991, #2b3bb8);
+  background-image: -moz-linear-gradient(top, #34d991, #2b3bb8);
+  background-image: -ms-linear-gradient(top, #34d991, #2b3bb8);
+  background-image: -o-linear-gradient(top, #34d991, #2b3bb8);
+  background-image: linear-gradient(to bottom, #34d991, #2b3bb8);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 15px;
+  padding: 5px 10px 5px 10px;
+  text-decoration: none;
+}
+
+.clear-btn:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
+.f-btn{
+  width: 20%;
+}
