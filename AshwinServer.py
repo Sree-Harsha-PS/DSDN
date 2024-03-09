@@ -8,7 +8,7 @@ CORS(app)
 @app.route("/AddNode",methods =['POST'])
 def Add_Node_to_Network():
     # seed
-    # generateOpt
+    # generateOtp
     # send Mail
     data = request.data.decode()
     print(data,type(data))
