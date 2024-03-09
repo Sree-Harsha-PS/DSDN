@@ -39,6 +39,7 @@ def getNextNode():
     senddata = json.dumps(data)
     url = leaderIP+"SendNextNode"
     # print(url,data)
+    print(data["Current"],data["Destination"],data["Destination"]==data["Current"])
     if(data["Current"] != data["Destination"]):
         res=requests.post(url=url,data=senddata)
         print(senddata)

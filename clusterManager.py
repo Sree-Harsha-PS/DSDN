@@ -66,7 +66,11 @@ def sendMail(Totp):
 
 AddNodeVotes = 0
 LogNo = -1
+idx = -1
 
+def incrementIdx():
+    global idx
+    idx = (idx+1) % len(clusterIP)
 
 def ResetAddNodeVotes():
     global AddNodeVotes
@@ -124,16 +128,17 @@ async def  addNodeToNetwork():
 def  ReciveNodeIP():
     req = request.data.decode()
     print(req)
-        
-    print(clusterIP[0]+"ComputeShortestPath")
-    requests.post(clusterIP[0]+"ComputeShortestPath",req)
+    incrementIdx()
+    while(clusterStatus[clusterIP[idx]] == "dead"):
+        print(clusterIP[idx]+"ComputeShortestPath")
+    requests.post(clusterIP[idx]+"ComputeShortestPath",req)
     
     
     
 
 @app.route("/GetOTPFromAdmin",methods =['GET'])
 def  GetOtp():
-    otp = generate_otp()
+    # otp = generate_otp()
     noOfNodes = 3
     AdminOTP = request.content.decode()
     data = request.data.decode()+"|"+str(LogNo+1)
