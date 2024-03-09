@@ -1,0 +1,11 @@
+# Clusters 
+
+python Cluster.py -a 127.0.0.1:5010 -i 1 -e 2/127.0.0.1:5020,3/127.0.0.1:5030 
+python Cluster.py -a 127.0.0.1:5020 -i 2 -e 1/127.0.0.1:5010,3/127.0.0.1:5030 
+python Cluster.py -a 127.0.0.1:5030 -i 3 -e 1/127.0.0.1:5010,2/127.0.0.1:5020
+
+# ClusterManager
+
+python clusterManager.py -a 127.0.0.1:7010 -i 1 -e 2/127.0.0.1:7020,3/127.0.0.1:7030 
+python clusterManager.py -a 127.0.0.1:7020 -i 2 -e 1/127.0.0.1:7010,3/127.0.0.1:7030 
+python clusterManager.py -a 127.0.0.1:7030 -i 3 -e 1/127.0.0.1:7010,2/127.0.0.1:7020
