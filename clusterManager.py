@@ -46,16 +46,17 @@ def generate_otp():
     return totp.now()
 
 
-def sendMail(Totp):
+def sendMail(totp, subject):
     try:
+        subject = 'One-time Password'
         YOUR_GOOGLE_EMAIL = 'ashwintest03@gmail.com'
         YOUR_GOOGLE_EMAIL_APP_PASSWORD = 'iwyv wdwi zcmr ljxu'  
         smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
         smtpserver.ehlo()
         smtpserver.login(YOUR_GOOGLE_EMAIL, YOUR_GOOGLE_EMAIL_APP_PASSWORD)
         sent_from = YOUR_GOOGLE_EMAIL
-        sent_to = 'balajiagmohan@gmail.com'  
-        email_text = "# OTP SENT FROM SDN NETWORK \nThe OTP is\n"+str(Totp)
+        sent_to = 'balajiagmohan@gmail.com'
+        email_text = "Subject: {}\n\nThe OTP is\n{}".format(subject, str(totp))
         smtpserver.sendmail(sent_from, sent_to, email_text)
         smtpserver.close()
         return "successful"
