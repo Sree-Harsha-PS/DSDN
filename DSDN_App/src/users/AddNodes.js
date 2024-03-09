@@ -62,7 +62,7 @@ const NodeAdder = () => {
     fetchLeaderIP();
     
     try {
-      await axios.post(`${process.env.REACT_APP_BASE_URL}/AddNode`, {
+      await axios.post(`http://127.0.1.1:3000/AddNode`, {
         name,
         web,
         id,
