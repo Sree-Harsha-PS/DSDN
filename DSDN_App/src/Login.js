@@ -101,7 +101,7 @@ const LoginScreen = () => {
     
       try {
         // Make a POST request to the server to authenticate the admin
-        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/admin/login`, {
+        const response = await axios.post(`http://127.0.1.1:3000/api/admin/login`, {
           username,
           password,
         });

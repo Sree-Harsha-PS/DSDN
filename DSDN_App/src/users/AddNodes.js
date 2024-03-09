@@ -16,12 +16,12 @@ const NodeAdder = () => {
 
 
   const fetchLeaderIP = async () => {
-    let url = `${process.env.REACT_APP_BASE_URL}/GetLeaderIPNode`;
+    let url = `http://127.0.1.1:3000/GetLeaderIPNode`;
 
     const params = new URLSearchParams();
 
     try {
-      const response = await axios.get(url + params.toString());
+      const response = await axios.post(url + params.toString());
       setLeaderIP(response.data.leaderIP);
     } catch (error) {
       console.error(error);
@@ -36,8 +36,9 @@ const NodeAdder = () => {
     const inputOTP = prompt('Please enter the OTP:');
     if (inputOTP !== null) {
       setOTP(inputOTP);
+      console.log(leaderIP)
       try {
-        await axios.post(`${process.env.REACT_APP_BASE_URL}/${leaderIP}/GetOTPFromAdmin`, {
+        await axios.post(`${leaderIP}/GetOTPFromAdmin`, {
           OTP: inputOTP
         });
         setOTP('');

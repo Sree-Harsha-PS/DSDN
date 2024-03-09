@@ -1,6 +1,7 @@
-from flask import Flask, Response, request
+from flask import Flask, Response, request ,jsonify
 from flask_cors import CORS
 import json
+
 
 global app
 app = Flask(__name__)
@@ -16,14 +17,27 @@ def getManagerLeader():
     global managerLeaderIP
     return managerLeaderIP
  
-@app.route("/GetManagerLeaderIP",methods =['GET'])
-def SendManagerLeaderIP():
-    data = {"leaderIP":"http://127.0.1.1:7021/"}
-    data = json.dumps(data)
-    return data
+# @app.route("/GetManagerLeaderIP",methods =['GET'])
+# def SendManagerLeaderIP():
+#     data = {"leaderIP":"http://127.0.1.1:7021/"}
+#     data = json.dumps(data)
+#     return data
 
 
+@app.route("/GetLeaderIPNode",methods =['POST'])
+def sendLeaderIP():
+    return getManagerLeader()
 
+@app.route('/api/admin/login', methods=['POST'])
+def login():
+    username = request.json.get('username')
+    password = request.json.get('password')
+    
+    if username == 'a@a.com' and password == '123':
+        token = 'login_done'
+        return jsonify({'token': token}), 200
+    else:
+        return jsonify({'error': 'Invalid credentials'}), 401
 
 @app.route("/RequestOTP",methods =['GET'])
 def SendOTP():
