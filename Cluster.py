@@ -14,7 +14,9 @@ log.setLevel(logging.ERROR)
 global app
 app = Flask(__name__)
 CORS(app)
-matrix = []
+
+matrix=[[0,1,5,0,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7],[1,0,6,3,0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[5,6,0,0,9,5,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,8,0,0,0,0,5,2,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,9,0,0,0,4,0,0,8,10,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0],[0,0,5,8,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,7,0,4,4,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,4,0,6,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,8,0,0,0,0],[0,0,0,0,8,0,5,0,6,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,5,10,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0],[8,11,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,7,0,0,0,0,0,0,0,0,0],[0,0,0,7,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,4,0,5,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,4,0,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,2,0,8,0,0,0,0,3,0,0,0,6,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,8,0,0,0,0,0,0,3,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,3],[0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,5,0,3,4,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,3,0,2,0,0,0,0,0,0,0],[0,0,0,0,7,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,4,2,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,3,0,0,0,0,0,0,4,3,0,4,0],[0,0,0,0,0,0,0,0,8,6,0,0,0,0,4,0,0,0,0,0,0,0,2,0,4,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,7,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,7,0,0],[7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0]]
+
 
 # To find next path
 # def find_next_node(source,destination):
@@ -35,19 +37,19 @@ NodeDetails = {
                 "3":{
                     "IP":"http://127.0.1.1:10003/",
                     "Status":"dead"
+                },
+                "4":{
+                    "IP":"http://127.0.1.1:10004/",
+                    "Status":"dead"
+                },
+                "5":{
+                    "IP":"http://127.0.1.1:10005/",
+                    "Status":"dead"
+                },
+                "6":{
+                    "IP":"http://127.0.1.1:10006/",
+                    "Status":"dead"
                 }
-                # "4":{
-                #     "IP":"http://127.0.1.1:10004/",
-                #     "Status":"dead"
-                # },
-                # "5":{
-                #     "IP":"http://127.0.1.1:10005/",
-                #     "Status":"dead"
-                # },
-                # "6":{
-                #     "IP":"http://127.0.1.1:10006/",
-                #     "Status":"dead"
-                # },
                 # "7":{
                 #     "IP":"http://127.0.1.1:10007/",
                 #     "Status":"dead"
@@ -148,6 +150,14 @@ NodeDetails = {
 ClusterMangerIP = "" 
 matrix = []
 
+def getmatrix():
+    global matrix
+    return matrix
+def setmatrix(m):
+    global matrix
+    matrix = m
+    return matrix
+
 def stringToMatrix(data):
     matrix =[]
     data = str(data[2:-2])
@@ -156,17 +166,31 @@ def stringToMatrix(data):
     data = data.replace("],","|")
     matrix = data.split("|")
     for i in range(len(matrix)):
-        matrixtring = matrix[i]
+        matrixtring = matrix[i].split(",")
         matrix[i] = []
         for c in matrixtring:
-            if(c!=","):
-                try:
-                    c = int(c)
-                except:
-                    pass    
-                matrix[i].append(c)
+
+            try:
+                c = int(c)
+            except:
+                pass    
+            matrix[i].append(c)
                 
     return matrix   
+
+def add_node(matrix, new_node, connections):
+    
+    matrix.insert(new_node, [0] * len(matrix))
+    for row in matrix:
+        row.insert(new_node, 0)
+
+
+    for connection, weight in connections:
+        matrix[new_node - 1][connection - 1] = weight  
+        matrix[connection - 1][new_node - 1] = weight
+
+    return matrix
+
 def setClusterManagerIP(ip):
     global ClusterMangerIP
     ClusterMangerIP = ip
@@ -176,11 +200,53 @@ def getClusterManagerIP():
     global ClusterMangerIP
     return ClusterMangerIP
 
+def minDistance(dist, visited):
+    min_dist = float("inf")
+    min_index = -1
+    for v in range(len(dist)):
+        if dist[v] < min_dist and not visited[v]:
+            min_dist = dist[v]
+            min_index = v
+    return min_index
+
+def dijkstra(graph, src, dest):
+    V = len(graph)
+    dist = [float("inf")] * V
+    dist[src-1] = 0
+    visited = [False] * V
+    previous_nodes = [-1] * V
+    
+    for i in range(V):
+        u = minDistance(dist, visited)
+        visited[u] = True
+
+        for v in range(V):
+            if graph[u][v] > 0 and not visited[v] and dist[v] > dist[u] + graph[u][v]:
+                dist[v] = dist[u] + graph[u][v]
+                previous_nodes[v] = u
+    path = []
+    current = dest - 1
+    while current != -1:
+        path.append(current + 1)
+        current = previous_nodes[current]
+
+    path.reverse()
+    print(path)
+    # print(dist[dest-1])
+    return path[1]
+
+# x=dijkstra(matrix, 1, 6)
+# print(x)
+
+# x=dijkstra(matrix, 3, 7)
+# print(x)
+
+
 @app.route("/",methods =["POST"])
 def Add_Node_to_Network():
 
     data = request.data.decode()
-    print(data,type(data))
+    # print(data,type(data))
     return "success"
 
 @app.route("/SendNextNode",methods =['POST'])
@@ -195,10 +261,19 @@ def RequestFromNode():
 def shortestpath():
     req = request.data.decode()
     data = json.loads(req)
-    print(data["Source"])    
-    print(data["Destination"])   
+    # print(data["Source"])    
+    # print(data["Destination"]) 
+    sourceID =   int(data["Current"].split(":")[-1][1:-1])
+    destinationID =   int(data["Destination"].split(":")[-1][1:-1])
+    id = dijkstra(getmatrix(),sourceID,destinationID)
+    print(sourceID,destinationID,id)
+    urlPort = 10000+id
+    print("next==========?",id)
+    url = "http://127.0.1.1:"+str(urlPort)+"/GetNextNode"
+    print(url)
+    res = requests.post(url=url,data=req) 
     try:
-        res = requests.post("http://127.0.1.1:10002/GetNextNode",req) 
+        print("sent")
     except:
         print("not able to send================>")    
     return ""
@@ -212,12 +287,12 @@ def heartBeatFromManager():
     # global ClusterMangerIP
     # ClusterMangerIP = data["leaderIP"]
     setClusterManagerIP(data["leaderIP"])
-    global matrix
     matrix = stringToMatrix(data["matrix"])
-    global NodesIP
-    NodesIP = data["NodesIP"]
+    setmatrix(matrix)
+    # global NodesIP
+    # NodesIP = data["NodesIP"]
     
-    print(getClusterManagerIP())
+    # print(getClusterManagerIP())
     
     return "alive"
 
@@ -246,7 +321,6 @@ def clusterLeader(node):
 def clusterFollower(node):
     while not node.shutdown_flag:
         if(node.state == 'f'):
-            print(node.state)
             sleep(3)
 
 def clusterLeaderCallback(node):

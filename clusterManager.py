@@ -86,13 +86,6 @@ def incrementLogNo():
     global LogNo
     LogNo += 1
     return LogNo
-# async def GetOTPAdmin():
-#     res = requests.get("http://127.0.1.1:3000/RequestOTP")
-#     otp = generate_otp()
-#     sendMail(otp)
-#     await i(res.content.decode() == generate_otp())
-    
-#     return res.content.decode()
     
 
 def followersAddNodeRequest(data):
@@ -100,7 +93,7 @@ def followersAddNodeRequest(data):
     # print(node.peers[1].port)
     votes = 0 
     for peer in node.peers.values():
-        url = 'http://127.0.1.1:'+str(int(peer.port)+1)+'/AddNode'
+        url = 'http://127.0.1.1:'+str(int(peer.port)+1)+'/FollowerAddNode'
         try:
             res = requests.post(url=url,data=data)
             print(res.content.decode())
@@ -109,7 +102,7 @@ def followersAddNodeRequest(data):
             print("failed to add")  
     return votes
 
-@app.route("/AddNode",methods =['POST'])
+@app.route("/FollowerAddNode",methods =['POST'])
 async def  addNodeToNetwork():
     print(request.data.decode())
     data,LeaderLogNo = request.data.decode().split("|")
@@ -134,14 +127,15 @@ def  ReciveNodeIP():
         
     print(clusterIP[0]+"ComputeShortestPath")
     requests.post(clusterIP[0]+"ComputeShortestPath",req)
+    
+    
+    
 
-@app.route("/",methods =['POST'])
-def  Add_Node_to_Network():
-    noOfNodes = 3
+@app.route("/GetOTPFromAdmin",methods =['GET'])
+def  GetOtp():
     otp = generate_otp()
-    sendMail(otp)   
-    res = requests.get("http://127.0.1.1:3000/RequestOTP")
-    AdminOTP = res.content.decode()
+    noOfNodes = 3
+    AdminOTP = request.content.decode()
     data = request.data.decode()+"|"+str(LogNo+1)
     if(AdminOTP == generate_otp()):
     
@@ -167,6 +161,12 @@ def  Add_Node_to_Network():
         file.write(f"Login attempt failed from admin\n")
         file.close()
         return "Wrong OTP"    
+    
+@app.route("/",methods =['POST'])
+def  Add_Node_to_Network():
+    otp = generate_otp()
+    sendMail(otp)   
+    
 
 
 # @app.route("/",methods =['POST'])

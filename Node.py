@@ -27,7 +27,7 @@ def getLeaderIP():
 @app.route("/NodeHeartBeats",methods =['POST'])
 def HeartBeatStatus():
     setLeaderIP(request.data.decode())
-    print("recieved IP")
+    # print("recieved IP")
     return "alive"
 
 @app.route("/GetNextNode",methods =['POST'])
@@ -35,11 +35,13 @@ def getNextNode():
     req = request.data.decode()
     data = json.loads(req)
     data["Current"]="http://127.0.1.1:"+str(port)+"/"
+    print(data["Current"])
+    senddata = json.dumps(data)
     url = leaderIP+"SendNextNode"
     # print(url,data)
     if(data["Current"] != data["Destination"]):
-        res=requests.post(url=url,data=req)
-        print(req)
+        res=requests.post(url=url,data=senddata)
+        print(senddata)
     else:
         print("found madu")        
     # print(res)
