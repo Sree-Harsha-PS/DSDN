@@ -71,7 +71,7 @@ const LoginScreen = () => {
                 // Revert color back to original after a delay (e.g., 1 second)
                 setTimeout(() => {
                     resetBoxColor(box);
-                }, 500);
+                }, 400);
             });
         });
     }, [])
