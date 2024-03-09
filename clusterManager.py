@@ -55,7 +55,7 @@ def sendMail(Totp):
         smtpserver.login(YOUR_GOOGLE_EMAIL, YOUR_GOOGLE_EMAIL_APP_PASSWORD)
         sent_from = YOUR_GOOGLE_EMAIL
         sent_to = 'balajiagmohan@gmail.com'  
-        email_text = "The OTP is\n"+str(Totp)
+        email_text = "# OTP SENT FROM SDN NETWORK \nThe OTP is\n"+str(Totp)
         smtpserver.sendmail(sent_from, sent_to, email_text)
         smtpserver.close()
         return "successful"
@@ -90,7 +90,48 @@ def incrementLogNo():
     global LogNo
     LogNo += 1
     return LogNo
+
+def delete(node):
+    global matrix
+    del matrix[node-1]
+    for row in matrix:
+        del row[node-1]
+    return matrix
+
+
+def add_node(new_node, connections):
+    global matrix
+    matrix.insert(new_node, [0] * len(matrix))
+    for row in matrix:
+        row.insert(new_node, 0)
+
+
+    for connection, weight in connections:
+        matrix[new_node - 1][connection - 1] = weight  
+        matrix[connection - 1][new_node - 1] = weight
+
+    return matrix
     
+    
+def stringToMatrix(data):
+    matrix =[]
+    data = str(data[2:-2])
+    data = data.replace(" ","")
+    data = data.replace("[","")
+    data = data.replace("],","|")
+    matrix = data.split("|")
+    for i in range(len(matrix)):
+        matrixtring = matrix[i].split(",")
+        matrix[i] = []
+        for c in matrixtring:
+
+            try:
+                c = int(c)
+            except:
+                pass    
+            matrix[i].append(c)
+                
+    return matrix       
 
 def followersAddNodeRequest(data):
     print(node.port)
@@ -115,9 +156,17 @@ async def  addNodeToNetwork():
     if int(LeaderLogNo) >= LogNo:
         # update in main memory
         file = open(f"Cluster_Manager{node.nid}_log.txt","+a")
-        file.write(f"log {LeaderLogNo}: Node {0} is added to the network\n")
+        file.write(f"log {LeaderLogNo}({node.state}): Node {0} is added to the network\n")
         file.close()
-        print("node added")
+        data = {
+                "id":"31",
+                "list":"[[7,4],[28,1],[12,5]]"
+               }
+        data = json.dumps(data)
+        data = json.loads(data)
+        list = data["list"]
+        list = stringToMatrix(list)
+        add_node(int(data["id"]),list)
         return "Sucessfully added"
     else:
         return "Log ahead"
@@ -140,7 +189,7 @@ def  ReciveNodeIP():
 def  GetOtp():
     # otp = generate_otp()
     noOfNodes = 3
-    AdminOTP = request.content.decode()
+    AdminOTP = request.data.decode()
     data = request.data.decode()+"|"+str(LogNo+1)
     if(AdminOTP == generate_otp()):
     
@@ -150,13 +199,22 @@ def  GetOtp():
         if(GetAddNodeVotes() > noOfNodes//2):
             # update in main memory 
             file = open(f"Cluster_Manager{node.nid}_log.txt","+a")
-            file.write(f"log {GetLogNo()}: Node {0} is added to the network\n")
+            file.write(f"log {GetLogNo()}({node.state}): Node {0} is added to the network\n")
             file.close()
+            data = {
+                "id":"31",
+                "list":"[[7,4],[28,1],[12,5]]"
+               }
+            data = json.dumps(data)
+            data = json.loads(data)
+            list = data["list"]
+            list = stringToMatrix(list)
+            add_node(int(data["id"]),list)
             ResetAddNodeVotes()
             return "success"
         else:
             file = open(f"Cluster_Manager{node.nid}_log.txt","+a")
-            file.write(f"log {GetLogNo()}: Failed to Node {0} to the network\n")
+            file.write(f"log {GetLogNo()}({node.state}): Failed to Node {0} to the network\n")
             file.close()        
             ResetAddNodeVotes()
             return "failed"
@@ -167,10 +225,11 @@ def  GetOtp():
         file.close()
         return "Wrong OTP"    
     
-@app.route("/",methods =['POST'])
+@app.route("/AddNode",methods =['POST'])
 def  Add_Node_to_Network():
     otp = generate_otp()
     sendMail(otp)   
+    return "Otp Sent"
     
 
 
@@ -187,11 +246,11 @@ def sendHeartBeatToClusters():
             # "http://127.0.1.1:"+str(node.port+1)
             res = requests.post(url=IP+"HeartBeatFromManager",data=data)
             clusterStatus[IP] = "alive"
-            print(res.content.decode())
+            # print(res.content.decode())
         except:
-            print("error madu",IP)    
+            # print("error madu",IP)    
             clusterStatus[IP] = "dead"
-        print(IP)
+        # print(IP)
 
 def sendIPToAdmin():
     try:
