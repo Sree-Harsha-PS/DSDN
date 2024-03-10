@@ -38,7 +38,7 @@ const NodeAdder = () => {
       setOTP(inputOTP);
       console.log(leaderIP)
       try {
-        await axios.post(`${leaderIP}/GetOTPFromAdmin`, {
+        await axios.post(`${leaderIP}/api/GetOTPFromAdmin`, {
           OTP: inputOTP
         });
         setOTP('');
@@ -62,7 +62,7 @@ const NodeAdder = () => {
     fetchLeaderIP();
     
     try {
-      await axios.post(`http://127.0.1.1:3000/AddNode`, {
+      await axios.post(`http://127.0.1.1:3000/api/AddNode`, {
         name,
         web,
         id,
